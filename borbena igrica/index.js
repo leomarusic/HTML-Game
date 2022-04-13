@@ -74,34 +74,6 @@ const player = new Fighter({
     death: {
       imageSrc: './img/samuraiMack/Death.png',
       framesMax: 6
-    },
-    idler: {
-      imageSrc: './img/samuraiMack/Idlereverse.png',
-      framesMax: 8
-    },
-    runr: {
-      imageSrc: './img/samuraiMack/Runreverse.png',
-      framesMax: 8
-    },
-    jumpr: {
-      imageSrc: './img/samuraiMack/Jumpreverse.png',
-      framesMax: 2
-    },
-    fallr: {
-      imageSrc: './img/samuraiMack/Fallreversed.png',
-      framesMax: 2
-    },
-    attack1r: {
-      imageSrc: './img/samuraiMack/Attack1reverse.png',
-      framesMax: 6
-    },
-    takeHitr: {
-      imageSrc: './img/samuraiMack/Take Hit - white silhouettereverse.png',
-      framesMax: 4
-    },
-    deathr: {
-      imageSrc: './img/samuraiMack/Deathreverse.png',
-      framesMax: 6
     }
   },
   attackBox: {
@@ -162,34 +134,6 @@ const enemy = new Fighter({
     },
     death: {
       imageSrc: './img/kenji/Death.png',
-      framesMax: 7
-    },
-    idler: {
-      imageSrc: './img/kenji/Idlereversed.png',
-      framesMax: 4
-    },
-    runr: {
-      imageSrc: './img/kenji/Runreversed.png',
-      framesMax: 8
-    },
-    jumpr: {
-      imageSrc: './img/kenji/Jumpreversed.png',
-      framesMax: 2
-    },
-    fallr: {
-      imageSrc: './img/kenji/Fallreversed.png',
-      framesMax: 2
-    },
-    attack1r: {
-      imageSrc: './img/kenji/Attack1reversed.png',
-      framesMax: 4
-    },
-    takeHitr: {
-      imageSrc: './img/kenji/Take hitreversed.png',
-      framesMax: 3
-    },
-    deathr: {
-      imageSrc: './img/kenji/Deathreversed.png',
       framesMax: 7
     }
   },
@@ -253,39 +197,41 @@ function animate() {
   
 
   
-if(player.position.x <= enemy.position.x) {
+
   // player movement
 
   if (keys.a.pressed && player.lastKey === 'a') {
-    if (player.exosted) {
+    if (player.exosted){
       player.velocity.x = -2
-    } else
-      player.velocity.x = -5
+    }
+    else
+    player.velocity.x = -5
 
     player.switchSprite('run')
     player.sstate = false
     old = start;
   } else if (keys.d.pressed && player.lastKey === 'd') {
-    if (player.exosted) {
+    if (player.exosted){
       player.velocity.x = 2
-    } else
-      player.velocity.x = 5
+    }
+    else
+    player.velocity.x = 5
 
     player.switchSprite('run')
     player.sstate = false
     old = start;
   } else {
     player.switchSprite('idle')
-
+    
     start = new Date().getTime();
-
-    if (start - old > 1000) {
-      player.sstate = true
-      old = start
-    }
-
-
-  }
+  
+      if (start - old > 1000){
+        player.sstate = true
+        old = start
+      }
+      
+      
+  } 
 
   // jumping
   if (player.velocity.y < 0) {
@@ -298,7 +244,7 @@ if(player.position.x <= enemy.position.x) {
     old = start;
   }
 
-  if (player.sstate !== oldstate) {
+  if (player.sstate != oldstate){
     oldstate = player.sstate;
     gsap.to('#playerStamina', {
       width: player.stamina + '%'
@@ -308,17 +254,17 @@ if(player.position.x <= enemy.position.x) {
   // Enemy movement
   if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
     if (enemy.exosted)
-      enemy.velocity.x = -2
+    enemy.velocity.x = -2
     else
-      enemy.velocity.x = -5
+    enemy.velocity.x = -5
 
     enemy.switchSprite('run')
     old2 = start2;
   } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
     if (enemy.exosted)
-      enemy.velocity.x = 2
+    enemy.velocity.x = 2
     else
-      enemy.velocity.x = 5
+    enemy.velocity.x = 5
 
     enemy.switchSprite('run')
     old2 = start2;
@@ -326,12 +272,14 @@ if(player.position.x <= enemy.position.x) {
     enemy.switchSprite('idle')
     //console.log(start2-old2)
     start2 = new Date().getTime();
-
-    if (start2 - old2 >= 1000) {
+  
+    if (start2 - old2 >= 1000){
       enemy.sstate = true
       old2 = start2
     }
   }
+  
+  
 
 
   // Enemy jumping
@@ -343,113 +291,12 @@ if(player.position.x <= enemy.position.x) {
     old2 = start2;
   }
 
-  if (enemy.sstate !== oldstate2) {
+  if (enemy.sstate != oldstate2){
     oldstate2 = enemy.sstate;
     gsap.to('#enemyStamina', {
       width: enemy.stamina + '%'
     })
   }
-}
-
-
-if(player.position.x > enemy.position.x)
-{
-  // player movement
-
-  if (keys.a.pressed && player.lastKey === 'a') {
-    if (player.exosted) {
-      player.velocity.x = -2
-    } else
-      player.velocity.x = -5
-
-    player.switchSprite('runr')
-    player.sstate = false
-    old = start;
-  } else if (keys.d.pressed && player.lastKey === 'd') {
-    if (player.exosted) {
-      player.velocity.x = 2
-    } else
-      player.velocity.x = 5
-
-    player.switchSprite('runr')
-    player.sstate = false
-    old = start;
-  } else {
-    player.switchSprite('idler')
-
-    start = new Date().getTime();
-
-    if (start - old > 1000) {
-      player.sstate = true
-      old = start
-    }
-
-
-  }
-
-  // jumping
-  if (player.velocity.y < 0) {
-    player.switchSprite('jumpr')
-    player.sstate = false
-    old = start;
-  } else if (player.velocity.y > 0) {
-    player.switchSprite('fallr')
-    player.sstate = false
-    old = start;
-  }
-
-  if (player.sstate !== oldstate) {
-    oldstate = player.sstate;
-    gsap.to('#playerStamina', {
-      width: player.stamina + '%'
-    })
-  }
-
-  // Enemy movement
-  if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
-    if (enemy.exosted)
-      enemy.velocity.x = -2
-    else
-      enemy.velocity.x = -5
-
-    enemy.switchSprite('runr')
-    old2 = start2;
-  } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
-    if (enemy.exosted)
-      enemy.velocity.x = 2
-    else
-      enemy.velocity.x = 5
-
-    enemy.switchSprite('runr')
-    old2 = start2;
-  } else {
-    enemy.switchSprite('idler')
-    //console.log(start2-old2)
-    start2 = new Date().getTime();
-
-    if (start2 - old2 >= 1000) {
-      enemy.sstate = true
-      old2 = start2
-    }
-  }
-
-
-  // Enemy jumping
-  if (enemy.velocity.y < 0) {
-    enemy.switchSprite('jumpr')
-    old2 = start2;
-  } else if (enemy.velocity.y > 0) {
-    enemy.switchSprite('fallr')
-    old2 = start2;
-  }
-
-  if (enemy.sstate !== oldstate2) {
-    oldstate2 = enemy.sstate;
-    gsap.to('#enemyStamina', {
-      width: enemy.stamina + '%'
-    })
-  }
-}
 
   // detect for collision & enemy gets hit
   if (
