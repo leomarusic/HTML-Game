@@ -74,6 +74,10 @@ const player = new Fighter({
     death: {
       imageSrc: './img/samuraiMack/Death.png',
       framesMax: 6
+    },
+    defend:{
+      imageSrc: './img/samuraiMack/Defend.png',
+      framesMax: 1
     }
   },
   attackBox: {
@@ -135,6 +139,10 @@ const enemy = new Fighter({
     death: {
       imageSrc: './img/kenji/Death.png',
       framesMax: 7
+    },
+    defend:{
+      imageSrc: './img/kenji/Defend.png',
+      framesMax: 1
     }
   },
   attackBox: {
@@ -156,10 +164,16 @@ const keys = {
   d: {
     pressed: false
   },
+  s: {
+    pressed: false
+  },
   ArrowRight: {
     pressed: false
   },
   ArrowLeft: {
+    pressed: false
+  },
+  ArrowDown:{
     pressed: false
   }
 }
@@ -169,7 +183,10 @@ var old = 0;
 var start ;
 
 var old2 = 0;
-var start2 
+var start2
+player.cooldown = false
+enemy.cooldown = false
+
 function animate() {
   let oldstate 
   let oldstate2
@@ -229,9 +246,7 @@ function animate() {
         player.sstate = true
         old = start
       }
-      
-      
-  } 
+  }
 
   // jumping
   if (player.velocity.y < 0) {
@@ -243,6 +258,21 @@ function animate() {
     player.sstate = false
     old = start;
   }
+
+  if(player.stamina === 0){
+    player.cooldown = true
+    player.isDefending = false
+    player.switchSprite('idle')
+    Countdown()
+  }
+  else if(keys.s.pressed && player.cooldown === false) {
+    player.velocity.x = 0;
+    player.defend();
+  }
+  else{
+    player.isDefending = false
+  }
+
 
   if (player.sstate != oldstate){
     oldstate = player.sstate;
@@ -278,9 +308,6 @@ function animate() {
       old2 = start2
     }
   }
-  
-  
-
 
   // Enemy jumping
   if (enemy.velocity.y < 0) {
@@ -298,6 +325,21 @@ function animate() {
     })
   }
 
+  if(enemy.stamina === 0){
+    enemy.cooldown = true
+    enemy.isDefending = false
+    enemy.switchSprite('idle')
+    Countdown()
+  }
+  else if(keys.ArrowDown.pressed && enemy.cooldown === false) {
+    enemy.velocity.x = 0;
+    enemy.defend();
+  }
+  else {
+    enemy.isDefending = false
+  }
+
+
   // detect for collision & enemy gets hit
   if (
     rectangularCollision({
@@ -305,7 +347,8 @@ function animate() {
       rectangle2: enemy
     }) &&
     player.isAttacking &&
-    player.framesCurrent === 4
+    player.framesCurrent === 4 &&
+    !(enemy.isDefending)
   ) {
     enemy.takeHit()
     player.isAttacking = false
@@ -327,7 +370,8 @@ function animate() {
       rectangle2: player
     }) &&
     enemy.isAttacking &&
-    enemy.framesCurrent === 2
+    enemy.framesCurrent === 2 &&
+    !(player.isDefending)
   ) {
     player.takeHit()
     enemy.isAttacking = false
@@ -373,6 +417,10 @@ window.addEventListener('keydown', (event) => {
         player.velocity.y = -20
         
         break
+      case 's':
+          keys.s.pressed = true
+          player.defend();
+        break
       case 'h':
         if (!player.exosted)
         player.attack()
@@ -398,6 +446,10 @@ window.addEventListener('keydown', (event) => {
         else
         enemy.velocity.y = -20
         break
+      case 'ArrowDown':
+        keys.ArrowDown.pressed = true
+        enemy.defend();
+        break
       case ' ':
         if (!enemy.exosted)
         enemy.attack()
@@ -415,6 +467,8 @@ window.addEventListener('keyup', (event) => {
     case 'a':
       keys.a.pressed = false
       break
+    case 's':
+      keys.s.pressed = false
   }
 
   // enemy keys
@@ -425,5 +479,7 @@ window.addEventListener('keyup', (event) => {
     case 'ArrowLeft':
       keys.ArrowLeft.pressed = false
       break
+    case 'ArrowDown':
+      keys.ArrowDown.pressed = false
   }
 })

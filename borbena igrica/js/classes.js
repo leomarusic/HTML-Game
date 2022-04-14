@@ -52,6 +52,26 @@ class Sprite {
     this.animateFrames()
   }
 }
+function Countdown(){
+  if(enemy.cooldown === true){
+    let timer = 3
+    setInterval(function (){
+      timer = timer-1
+      if(timer === 0){
+        enemy.cooldown = false
+      }
+    },1000)
+  }
+  if(player.cooldown === true){
+    let timer = 3
+    setInterval(function (){
+      timer = timer-1
+      if(timer === 0){
+        player.cooldown = false
+      }
+    },1000)
+  }
+}
 var t2 = 0
 class Fighter extends Sprite {
   constructor({
@@ -88,6 +108,7 @@ class Fighter extends Sprite {
     }
     this.color = color
     this.isAttacking
+    this.isDefending
     this.health = 100
     this.stamina = 100
     this.sstate = true
@@ -192,6 +213,24 @@ class Fighter extends Sprite {
 
   }
 
+  defend()
+  {
+    if(player.cooldown === false) {
+      this.switchSprite('defend')
+      this.isDefending = true
+      this.drainStamina()
+    }
+    if(enemy.cooldown === false) {
+      this.switchSprite('defend')
+      this.isDefending = true
+      this.drainStamina()
+    }
+  }
+
+  drainStamina(){
+    this.stamina -= 5;
+  }
+
   takeHit() {
     this.health -= 20;
     this.stamina -= 5;
@@ -206,6 +245,7 @@ class Fighter extends Sprite {
         this.dead = true
       return
     }
+
 
     // overriding all other animations with the attack animation
     if (
@@ -227,8 +267,6 @@ class Fighter extends Sprite {
           this.image = this.sprites.idle.image
           this.framesMax = this.sprites.idle.framesMax
           this.framesCurrent = 0
-          
-          
 
         }
         break
@@ -265,6 +303,15 @@ class Fighter extends Sprite {
           this.framesCurrent = 0
           
           
+        }
+        break
+      case 'defend':
+        if (this.image !== this.sprites.defend.image) {
+          this.image = this.sprites.defend.image
+          this.framesMax = this.sprites.defend.framesMax
+          this.framesCurrent = 0
+
+
         }
         break
 
