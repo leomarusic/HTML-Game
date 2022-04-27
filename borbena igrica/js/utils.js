@@ -34,6 +34,8 @@ function decreaseTimer() {
     timerId = setTimeout(decreaseTimer, 1000)
     timer--
     document.querySelector('#timer').innerHTML = timer
+    player.vrijeme --;
+    enemy.vrijeme--;
   }
 
   if (timer === 0) {

@@ -112,7 +112,7 @@ style="
   top: 30px;
 "
 >
-<!-- player health -->
+<!-- player stamina -->
 <div
   style="
     position: relative;
@@ -155,18 +155,21 @@ style="
 >
   
 </div>
-<!-- enemy health -->
+<!-- enemy stamina -->
 <div
+id="resi"
   style="
     position: relative;
     width: 100%;
+    justify-content: flex-end;
     border-top: 2px solid white;
     border-bottom: 2px solid white;
-    border-right: 2px solid white;
+    border-right: 2x solid white;
+    border-right-style: solid;
     border-left: 2px solid white;
   "
 >
-  <div style="background-color: purple; height: 15px"></div>
+  <div style="background-color: purple; height: 15px; width: 100%"></div>
   <div
     id="enemyStamina"
     style="
@@ -210,4 +213,10 @@ style="
   <script src="js/utils.js"></script>
   <script src="js/classes.js"></script>
   <script src="index.js"></script>
+  <style>
+    #resi{
+      border-right-color: white;
+      
+    }
+    </style>
 </body>

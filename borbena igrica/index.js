@@ -184,8 +184,7 @@ var start ;
 
 var old2 = 0;
 var start2
-player.cooldown = false
-enemy.cooldown = false
+
 
 function animate() {
   let oldstate 
@@ -217,7 +216,7 @@ function animate() {
 
   // player movement
 
-  if (keys.a.pressed && player.lastKey === 'a') {
+  if (keys.a.pressed && player.lastKey === 'a' && !player.isDefending) {
     if (player.exosted){
       player.velocity.x = -2
     }
@@ -227,7 +226,7 @@ function animate() {
     player.switchSprite('run')
     player.sstate = false
     old = start;
-  } else if (keys.d.pressed && player.lastKey === 'd') {
+  } else if (keys.d.pressed && player.lastKey === 'd' && !player.isDefending) {
     if (player.exosted){
       player.velocity.x = 2
     }
@@ -237,12 +236,12 @@ function animate() {
     player.switchSprite('run')
     player.sstate = false
     old = start;
-  } else {
+  } else if (!player.isDefending) {
     player.switchSprite('idle')
     
     start = new Date().getTime();
   
-      if (start - old > 1000){
+      if (start - old > 1000 && !player.isDefending){
         player.sstate = true
         old = start
       }
@@ -259,19 +258,7 @@ function animate() {
     old = start;
   }
 
-  if(player.stamina === 0){
-    player.cooldown = true
-    player.isDefending = false
-    player.switchSprite('idle')
-    Countdown()
-  }
-  else if(keys.s.pressed && player.cooldown === false) {
-    player.velocity.x = 0;
-    player.defend();
-  }
-  else{
-    player.isDefending = false
-  }
+  
 
 
   if (player.sstate != oldstate){
@@ -282,15 +269,16 @@ function animate() {
   }
 
   // Enemy movement
-  if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+  if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft' && !enemy.isDefending) {
     if (enemy.exosted)
     enemy.velocity.x = -2
     else
     enemy.velocity.x = -5
 
     enemy.switchSprite('run')
+
     old2 = start2;
-  } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+  } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && !enemy.isDefending) {
     if (enemy.exosted)
     enemy.velocity.x = 2
     else
@@ -298,12 +286,12 @@ function animate() {
 
     enemy.switchSprite('run')
     old2 = start2;
-  } else {
+  } else if (!enemy.isDefending) {
     enemy.switchSprite('idle')
     //console.log(start2-old2)
     start2 = new Date().getTime();
   
-    if (start2 - old2 >= 1000){
+    if (start2 - old2 >= 1000 && !enemy.isDefending){
       enemy.sstate = true
       old2 = start2
     }
@@ -325,19 +313,7 @@ function animate() {
     })
   }
 
-  if(enemy.stamina === 0){
-    enemy.cooldown = true
-    enemy.isDefending = false
-    enemy.switchSprite('idle')
-    Countdown()
-  }
-  else if(keys.ArrowDown.pressed && enemy.cooldown === false) {
-    enemy.velocity.x = 0;
-    enemy.defend();
-  }
-  else {
-    enemy.isDefending = false
-  }
+
 
 
   // detect for collision & enemy gets hit
@@ -417,12 +393,13 @@ window.addEventListener('keydown', (event) => {
         player.velocity.y = -20
         
         break
-      case 's':
+      case 'g':
           keys.s.pressed = true
+          if (!player.exosted && !player.isDefending)
           player.defend();
         break
       case 'h':
-        if (!player.exosted)
+        if (!player.exosted && !player.isDefending)
         player.attack()
         old = start;
         break
@@ -446,12 +423,13 @@ window.addEventListener('keydown', (event) => {
         else
         enemy.velocity.y = -20
         break
-      case 'ArrowDown':
+      case '*':
         keys.ArrowDown.pressed = true
+        if (!enemy.exosted && !enemy.isDefending)
         enemy.defend();
         break
-      case ' ':
-        if (!enemy.exosted)
+      case '-':
+        if (!enemy.exosted && !enemy.isDefending)
         enemy.attack()
         old2 = start2;
         break
@@ -467,7 +445,7 @@ window.addEventListener('keyup', (event) => {
     case 'a':
       keys.a.pressed = false
       break
-    case 's':
+    case 'g':
       keys.s.pressed = false
   }
 

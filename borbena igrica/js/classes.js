@@ -52,26 +52,7 @@ class Sprite {
     this.animateFrames()
   }
 }
-function Countdown(){
-  if(enemy.cooldown === true){
-    let timer = 3
-    setInterval(function (){
-      timer = timer-1
-      if(timer === 0){
-        enemy.cooldown = false
-      }
-    },1000)
-  }
-  if(player.cooldown === true){
-    let timer = 3
-    setInterval(function (){
-      timer = timer-1
-      if(timer === 0){
-        player.cooldown = false
-      }
-    },1000)
-  }
-}
+
 var t2 = 0
 class Fighter extends Sprite {
   constructor({
@@ -121,6 +102,9 @@ class Fighter extends Sprite {
     this.vrijeme
     this.oldtime = 0
     this.exosted = false
+    this.vrijeme = 60
+    this.starovrijeme
+    this.starovrijeme2
     
    
 
@@ -146,6 +130,12 @@ class Fighter extends Sprite {
     //   this.attackBox.width,
     //   this.attackBox.height
     // )
+    if (this.starovrijeme - this.vrijeme > 1){
+      this.isDefending = false;
+    }
+       
+      
+    
 
     this.position.x += this.velocity.x
     this.position.y += this.velocity.y
@@ -166,7 +156,7 @@ class Fighter extends Sprite {
       this.velocity.x = 0;
       this.position.x = 0;
     }
-    if (this.position.y + this.height + this.velocity.y <= -100 ){
+    if (this.position.y + this.height + this.velocity.y <= 100 ){
       this.velocity.y = 5;
       
     }
@@ -185,7 +175,7 @@ class Fighter extends Sprite {
     
     else this.exosted = false;
  
-    if (this.sstate  ){
+    if (this.sstate){
      /*
       var t1 = new Date().getTime();
       if (t1-t2 >100 ){
@@ -212,19 +202,14 @@ class Fighter extends Sprite {
     this.sstate = false;
 
   }
-
+  
   defend()
   {
-    if(player.cooldown === false) {
-      this.switchSprite('defend')
-      this.isDefending = true
-      this.drainStamina()
-    }
-    if(enemy.cooldown === false) {
-      this.switchSprite('defend')
-      this.isDefending = true
-      this.drainStamina()
-    }
+    this.switchSprite("defend")
+    this.isDefending = true;
+    this.starovrijeme = this.vrijeme;
+    this.stamina -= 10;
+    this.sstate = false;
   }
 
   drainStamina(){
