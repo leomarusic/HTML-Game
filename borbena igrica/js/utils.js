@@ -27,15 +27,17 @@ function determineWinner({ player, enemy, timerId }) {
 
 
 
+let timer2 = 60
 let timer = 60
 let timerId
 function decreaseTimer() {
-  if (timer > 0) {
-    timerId = setTimeout(decreaseTimer, 1000)
-    timer--
+  if (timer2 > 0) {
+    timerId = setTimeout(decreaseTimer, 100)
+    timer2 -= 0.1
     document.querySelector('#timer').innerHTML = timer
-    player.vrijeme --;
-    enemy.vrijeme--;
+    player.vrijeme -= 0.1;
+    enemy.vrijeme -= 0.1;
+    timer = Math.ceil(timer2) 
   }
 
   if (timer === 0) {

@@ -203,7 +203,7 @@ function animate() {
   enemy.staminaf()
   player.staminaf()
   
-  
+  //console.log(player.starovrijeme2)
  
   
   
@@ -239,11 +239,13 @@ function animate() {
   } else if (!player.isDefending) {
     player.switchSprite('idle')
     
-    start = new Date().getTime();
-  
-      if (start - old > 1000 && !player.isDefending){
+    
+    
+      if (player.starovrijeme2 - player.vrijeme >= 1.5 && !player.isDefending){
         player.sstate = true
-        old = start
+       
+        player.starovrijeme2 = player.vrijeme;
+  
       }
   }
 
@@ -289,11 +291,13 @@ function animate() {
   } else if (!enemy.isDefending) {
     enemy.switchSprite('idle')
     //console.log(start2-old2)
-    start2 = new Date().getTime();
+    
   
-    if (start2 - old2 >= 1000 && !enemy.isDefending){
+    if (enemy.starovrijeme2 - enemy.vrijeme >= 1.5 && !enemy.isDefending){
       enemy.sstate = true
-      old2 = start2
+     
+      enemy.starovrijeme2 = enemy.vrijeme;
+
     }
   }
 

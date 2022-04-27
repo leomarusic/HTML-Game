@@ -104,7 +104,8 @@ class Fighter extends Sprite {
     this.exosted = false
     this.vrijeme = 60
     this.starovrijeme
-    this.starovrijeme2
+    this.starovrijeme2 = 60
+    this.starovrijeme4 = 60
     
    
 
@@ -130,7 +131,7 @@ class Fighter extends Sprite {
     //   this.attackBox.width,
     //   this.attackBox.height
     // )
-    if (this.starovrijeme - this.vrijeme > 1){
+    if (this.starovrijeme - this.vrijeme >= 0.5){
       this.isDefending = false;
     }
        
@@ -183,8 +184,11 @@ class Fighter extends Sprite {
       t2 = t1
 
     }*/
-    this.stamina+=5;
-    
+    if (this.starovrijeme4-this.vrijeme >0.3){
+
+      this.stamina+=10;
+      this.starovrijeme4=this.vrijeme
+    }
     
   }
 
