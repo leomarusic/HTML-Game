@@ -155,7 +155,7 @@ const enemy = new Fighter({
   }
 })
 
-console.log(player)
+//console.log(player)
 
 const keys = {
   a: {
@@ -179,11 +179,7 @@ const keys = {
 }
 
 decreaseTimer()
-var old = 0;
-var start ;
 
-var old2 = 0;
-var start2
 
 
 function animate() {
@@ -225,7 +221,7 @@ function animate() {
 
     player.switchSprite('run')
     player.sstate = false
-    old = start;
+   player.starovrijeme2 = player.vrijeme
   } else if (keys.d.pressed && player.lastKey === 'd' && !player.isDefending) {
     if (player.exosted){
       player.velocity.x = 2
@@ -235,7 +231,7 @@ function animate() {
 
     player.switchSprite('run')
     player.sstate = false
-    old = start;
+   player.starovrijeme2 = player.vrijeme
   } else if (!player.isDefending) {
     player.switchSprite('idle')
     
@@ -253,11 +249,11 @@ function animate() {
   if (player.velocity.y < 0) {
     player.switchSprite('jump')
     player.sstate = false
-    old = start;
+   player.starovrijeme2 = player.vrijeme
   } else if (player.velocity.y > 0) {
     player.switchSprite('fall')
     player.sstate = false
-    old = start;
+   player.starovrijeme2 = player.vrijeme
   }
 
   
@@ -279,7 +275,7 @@ function animate() {
 
     enemy.switchSprite('run')
 
-    old2 = start2;
+   enemy.starovrijeme2 = enemy.vrijeme
   } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && !enemy.isDefending) {
     if (enemy.exosted)
     enemy.velocity.x = 2
@@ -287,7 +283,7 @@ function animate() {
     enemy.velocity.x = 5
 
     enemy.switchSprite('run')
-    old2 = start2;
+   enemy.starovrijeme2 = enemy.vrijeme
   } else if (!enemy.isDefending) {
     enemy.switchSprite('idle')
     //console.log(start2-old2)
@@ -304,10 +300,10 @@ function animate() {
   // Enemy jumping
   if (enemy.velocity.y < 0) {
     enemy.switchSprite('jump')
-    old2 = start2;
+   enemy.starovrijeme2 = enemy.vrijeme
   } else if (enemy.velocity.y > 0) {
     enemy.switchSprite('fall')
-    old2 = start2;
+   enemy.starovrijeme2 = enemy.vrijeme
   }
 
   if (enemy.sstate != oldstate2){
@@ -327,11 +323,12 @@ function animate() {
       rectangle2: enemy
     }) &&
     player.isAttacking &&
-    player.framesCurrent === 4 &&
+    player.framesCurrent === 2 &&
     !(enemy.isDefending)
   ) {
     enemy.takeHit()
     player.isAttacking = false
+    
 
     gsap.to('#enemyHealth', {
       width: enemy.health + '%'
@@ -339,7 +336,7 @@ function animate() {
   }
 
   // if player misses
-  if (player.isAttacking && player.framesCurrent === 4) {
+  if (player.isAttacking && player.framesCurrent === 2) {
     player.isAttacking = false
   }
 
@@ -405,7 +402,7 @@ window.addEventListener('keydown', (event) => {
       case 'h':
         if (!player.exosted && !player.isDefending)
         player.attack()
-        old = start;
+       player.starovrijeme2 = player.vrijeme
         break
     }
   }
@@ -427,7 +424,7 @@ window.addEventListener('keydown', (event) => {
         else
         enemy.velocity.y = -20
         break
-      case '*':
+      case 'p':
         keys.ArrowDown.pressed = true
         if (!enemy.exosted && !enemy.isDefending)
         enemy.defend();
@@ -435,7 +432,7 @@ window.addEventListener('keydown', (event) => {
       case '-':
         if (!enemy.exosted && !enemy.isDefending)
         enemy.attack()
-        old2 = start2;
+       enemy.starovrijeme2 = enemy.vrijeme
         break
     }
   }

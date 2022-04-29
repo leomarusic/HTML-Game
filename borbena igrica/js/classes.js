@@ -100,7 +100,6 @@ class Fighter extends Sprite {
     this.sprites = sprites
     this.dead = false
     this.vrijeme
-    this.oldtime = 0
     this.exosted = false
     this.vrijeme = 60
     this.starovrijeme
@@ -184,9 +183,9 @@ class Fighter extends Sprite {
       t2 = t1
 
     }*/
-    if (this.starovrijeme4-this.vrijeme >0.3){
+    if (this.starovrijeme4-this.vrijeme >0.1){
 
-      this.stamina+=10;
+      this.stamina+=7;
       this.starovrijeme4=this.vrijeme
     }
     
@@ -200,29 +199,34 @@ class Fighter extends Sprite {
   }
     
   attack() {
+    if(this.stamina >= 20){
     this.switchSprite('attack1')
     this.isAttacking = true
     this.stamina -= 20;
     this.sstate = false;
-
+    }
   }
   
   defend()
   {
+    if(this.stamina >= 20){
     this.switchSprite("defend")
     this.isDefending = true;
     this.starovrijeme = this.vrijeme;
     this.stamina -= 10;
     this.sstate = false;
+    
+    }
   }
 
-  drainStamina(){
-    this.stamina -= 5;
-  }
+ 
 
   takeHit() {
     this.health -= 20;
+    this.starovrijeme2 = this.vrijeme;
+    this.sstate = false;
     this.stamina -= 5;
+    
     if (this.health <= 0) {
       this.switchSprite('death')
     } else this.switchSprite('takeHit')
@@ -237,6 +241,7 @@ class Fighter extends Sprite {
 
 
     // overriding all other animations with the attack animation
+   
     if (
       this.image === this.sprites.attack1.image &&
       this.framesCurrent < this.sprites.attack1.framesMax - 1
