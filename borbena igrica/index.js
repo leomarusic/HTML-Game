@@ -221,7 +221,7 @@ function animate() {
 
     player.switchSprite('run')
     player.sstate = false
-   player.starovrijeme2 = player.vrijeme
+   
   } else if (keys.d.pressed && player.lastKey === 'd' && !player.isDefending) {
     if (player.exosted){
       player.velocity.x = 2
@@ -231,7 +231,7 @@ function animate() {
 
     player.switchSprite('run')
     player.sstate = false
-   player.starovrijeme2 = player.vrijeme
+   
   } else if (!player.isDefending) {
     player.switchSprite('idle')
     
@@ -275,7 +275,7 @@ function animate() {
 
     enemy.switchSprite('run')
 
-   enemy.starovrijeme2 = enemy.vrijeme
+   
   } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight' && !enemy.isDefending) {
     if (enemy.exosted)
     enemy.velocity.x = 2
@@ -283,7 +283,7 @@ function animate() {
     enemy.velocity.x = 5
 
     enemy.switchSprite('run')
-   enemy.starovrijeme2 = enemy.vrijeme
+   
   } else if (!enemy.isDefending) {
     enemy.switchSprite('idle')
     //console.log(start2-old2)
