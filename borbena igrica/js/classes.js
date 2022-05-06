@@ -199,17 +199,18 @@ class Fighter extends Sprite {
   }
     
   attack() {
-    if(this.stamina >= 20){
+    if(this.stamina >= 15){
     this.switchSprite('attack1')
     this.isAttacking = true
-    this.stamina -= 20;
+    this.stamina -= 15;
     this.sstate = false;
     }
+	else this.stamina =-10
   }
   
   defend()
   {
-    if(this.stamina >= 20){
+    if(this.stamina >= 10){
     this.switchSprite("defend")
     this.isDefending = true;
     this.starovrijeme = this.vrijeme;
@@ -217,6 +218,9 @@ class Fighter extends Sprite {
     this.sstate = false;
     
     }
+	else{
+		this.stamina =-5
+	}
   }
 
  
@@ -226,6 +230,7 @@ class Fighter extends Sprite {
     this.starovrijeme2 = this.vrijeme;
     this.sstate = false;
     this.stamina -= 5;
+	
     
     if (this.health <= 0) {
       this.switchSprite('death')

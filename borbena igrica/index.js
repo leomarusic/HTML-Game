@@ -65,7 +65,7 @@ const player = new Fighter({
     },
     attack1: {
       imageSrc: './img/samuraiMack/Attack1.png',
-      framesMax: 6
+      framesMax: 4
     },
     takeHit: {
       imageSrc: './img/samuraiMack/Take Hit - white silhouette.png',
@@ -220,7 +220,7 @@ function animate() {
     player.velocity.x = -5
 
     player.switchSprite('run')
-    player.sstate = false
+    
    
   } else if (keys.d.pressed && player.lastKey === 'd' && !player.isDefending) {
     if (player.exosted){
@@ -230,14 +230,14 @@ function animate() {
     player.velocity.x = 5
 
     player.switchSprite('run')
-    player.sstate = false
+    
    
   } else if (!player.isDefending) {
     player.switchSprite('idle')
     
     
     
-      if (player.starovrijeme2 - player.vrijeme >= 1.5 && !player.isDefending){
+      if (player.starovrijeme2 - player.vrijeme >= 1.2&& !player.isDefending){
         player.sstate = true
        
         player.starovrijeme2 = player.vrijeme;
@@ -351,7 +351,7 @@ function animate() {
     !(player.isDefending)
   ) {
     player.takeHit()
-    enemy.isAttacking = false
+    enemy.isAttacking = false	
 
     gsap.to('#playerHealth', {
       width: player.health + '%'
@@ -382,7 +382,7 @@ window.addEventListener('keydown', (event) => {
       case 'd':
         keys.d.pressed = true
         player.lastKey = 'd'
-        break
+        break 
       case 'a':
         keys.a.pressed = true
         player.lastKey = 'a'
@@ -424,7 +424,7 @@ window.addEventListener('keydown', (event) => {
         else
         enemy.velocity.y = -20
         break
-      case 'p':
+      case '*':
         keys.ArrowDown.pressed = true
         if (!enemy.exosted && !enemy.isDefending)
         enemy.defend();
